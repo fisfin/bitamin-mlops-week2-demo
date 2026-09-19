@@ -79,6 +79,12 @@ def build_models() -> dict[str, object]:
             class_weight="balanced",
             random_state=RANDOM_STATE,
         ),
+        "Random Forest": RandomForestClassifier(
+            n_estimators=200,
+            class_weight="balanced",
+            random_state=RANDOM_STATE,
+            n_jobs=-1,
+        ),
     }
 
 
