@@ -52,13 +52,13 @@ def build_preprocessor(X: pd.DataFrame) -> ColumnTransformer:
 
     numeric_pipeline = Pipeline(
         steps=[
-            ("imputer", SimpleImputer(strategy="mean")),
+            ("imputer", SimpleImputer(strategy="median")),
             ("scaler", StandardScaler()),
         ]
     )
     categorical_pipeline = Pipeline(
         steps=[
-            ("imputer", SimpleImputer(strategy="constant", fill_value="unknown")),
+            ("imputer", SimpleImputer(strategy="most_frequent")),
             ("onehot", OneHotEncoder(handle_unknown="ignore")),
         ]
     )
