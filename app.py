@@ -52,13 +52,13 @@ def build_preprocessor(X: pd.DataFrame) -> ColumnTransformer:
 
     numeric_pipeline = Pipeline(
         steps=[
-            ("imputer", SimpleImputer(strategy="mean")),
+            ("imputer", SimpleImputer(strategy="median")),
             ("scaler", StandardScaler()),
         ]
     )
     categorical_pipeline = Pipeline(
         steps=[
-            ("imputer", SimpleImputer(strategy="constant", fill_value="unknown")),
+            ("imputer", SimpleImputer(strategy="most_frequent")),
             ("onehot", OneHotEncoder(handle_unknown="ignore")),
         ]
     )
@@ -74,6 +74,11 @@ def build_preprocessor(X: pd.DataFrame) -> ColumnTransformer:
 def build_models() -> dict[str, object]:
     """2주차에 통합한 비교 모델을 반환한다."""
     return {
+        "Logistic Regression": LogisticRegression(
+            max_iter=1000,
+            class_weight="balanced",
+            random_state=RANDOM_STATE,
+        ),
         "Random Forest": RandomForestClassifier(
             n_estimators=200,
             class_weight="balanced",
@@ -87,7 +92,10 @@ def evaluate(y_true: pd.Series, y_pred, y_score) -> dict[str, float]:
     """불균형한 Churn 데이터에 필요한 공통 지표를 계산한다."""
     return {
         "accuracy": accuracy_score(y_true, y_pred),
+        "precision": precision_score(y_true, y_pred, zero_division=0),
+        "recall": recall_score(y_true, y_pred, zero_division=0),
         "f1": f1_score(y_true, y_pred, zero_division=0),
+        "roc_auc": roc_auc_score(y_true, y_score),
     }
 
 
