@@ -74,9 +74,11 @@ def build_preprocessor(X: pd.DataFrame) -> ColumnTransformer:
 def build_models() -> dict[str, object]:
     """2주차에 통합한 비교 모델을 반환한다."""
     return {
-        "Logistic Regression": LogisticRegression(
-            max_iter=1000,
+        "Random Forest": RandomForestClassifier(
+            n_estimators=200,
+            class_weight="balanced",
             random_state=RANDOM_STATE,
+            n_jobs=-1,
         ),
     }
 
