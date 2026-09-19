@@ -85,7 +85,10 @@ def evaluate(y_true: pd.Series, y_pred, y_score) -> dict[str, float]:
     """불균형한 Churn 데이터에 필요한 공통 지표를 계산한다."""
     return {
         "accuracy": accuracy_score(y_true, y_pred),
+        "precision": precision_score(y_true, y_pred, zero_division=0),
+        "recall": recall_score(y_true, y_pred, zero_division=0),
         "f1": f1_score(y_true, y_pred, zero_division=0),
+        "roc_auc": roc_auc_score(y_true, y_score),
     }
 
 
