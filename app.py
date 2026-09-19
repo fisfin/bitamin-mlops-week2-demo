@@ -76,6 +76,7 @@ def build_models() -> dict[str, object]:
     return {
         "Logistic Regression": LogisticRegression(
             max_iter=1000,
+            class_weight="balanced",
             random_state=RANDOM_STATE,
         ),
     }
